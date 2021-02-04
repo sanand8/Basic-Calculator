@@ -6,13 +6,15 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class MainActivity extends AppCompatActivity {
     private EditText result;
     private EditText newNumber;
     private TextView operations;
-
+    private final String saveop = "=";
+    private final String operand = "Operand1";
     //to Store the operands and operator
     private Double operand1 = null;
     private Double operand2 = null;
@@ -89,6 +91,24 @@ public class MainActivity extends AppCompatActivity {
         buttonPlus.setOnClickListener(opListener);
         buttonEqual.setOnClickListener(opListener);
     }
+
+    @Override
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
+        outState.putString(saveop, operations.getText().toString());
+        if(operand1 != null){
+            outState.putDouble(operand, operand1);
+        }
+        super.onSaveInstanceState(outState);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        operator = savedInstanceState.getString(saveop);
+        operand1 = savedInstanceState.getDouble(operand);
+        operations.setText(operator);
+    }
+
     private void performOperation(Double value, String op){
         if(null == operand1){
             operand1 = value;
