@@ -19,6 +19,7 @@ public class MainActivity extends AppCompatActivity {
     private Double operand1 = null;
     private Double operand2 = null;
     private String operator = "=";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -75,10 +76,10 @@ public class MainActivity extends AppCompatActivity {
                 Button b = (Button) view;
                 String op = b.getText().toString();
                 String value = newNumber.getText().toString();
-                try{
+                try {
                     Double val = Double.valueOf(value);
                     performOperation(val, op);
-                } catch (NumberFormatException e){
+                } catch (NumberFormatException e) {
                     newNumber.setText("");
                 }
                 operator = op;
@@ -90,12 +91,32 @@ public class MainActivity extends AppCompatActivity {
         buttonMinus.setOnClickListener(opListener);
         buttonPlus.setOnClickListener(opListener);
         buttonEqual.setOnClickListener(opListener);
+
+        Button buttonNeg = (Button) findViewById(R.id.buttonNeg);
+        View.OnClickListener negative = new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String value = newNumber.getText().toString();
+                if (value.length() == 0) {
+                    newNumber.setText("-");
+                } else {
+                    try {
+                        Double doubleValue = Double.valueOf(value);
+                        doubleValue *= -1;
+                        newNumber.setText(doubleValue.toString());
+                    } catch (NumberFormatException e) {
+                        newNumber.setText("");
+                    }
+                }
+            }
+        };
+        buttonNeg.setOnClickListener(negative);
     }
 
     @Override
     protected void onSaveInstanceState(@NonNull Bundle outState) {
-        outState.putString(saveop, operations.getText().toString());
-        if(operand1 != null){
+        outState.putString(saveop, operator);
+        if (operand1 != null) {
             outState.putDouble(operand, operand1);
         }
         super.onSaveInstanceState(outState);
@@ -109,24 +130,22 @@ public class MainActivity extends AppCompatActivity {
         operations.setText(operator);
     }
 
-    private void performOperation(Double value, String op){
-        if(null == operand1){
+    private void performOperation(Double value, String op) {
+        if (null == operand1) {
             operand1 = value;
-        }
-        else{
+        } else {
             operand2 = value;
-            if(operator.equals("=")){
+            if (operator.equals("=")) {
                 operator = op;
             }
-            switch (operator){
+            switch (operator) {
                 case "=":
                     operand1 = operand2;
                     break;
                 case "/":
-                    if(operand2 == 0){
+                    if (operand2 == 0) {
                         operand1 = 0.0;
-                    }
-                    else{
+                    } else {
                         operand1 /= operand2;
                     }
                     break;

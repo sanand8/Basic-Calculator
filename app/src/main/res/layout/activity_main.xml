@@ -239,4 +239,15 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintGuide_begin="69dp" />
+
+    <Button
+        android:id="@+id/buttonNeg"
+        android:layout_width="214dp"
+        android:layout_height="38dp"
+        android:layout_marginTop="8dp"
+        android:text="NEG"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.516"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/buttonDot" />
 </androidx.constraintlayout.widget.ConstraintLayout>
