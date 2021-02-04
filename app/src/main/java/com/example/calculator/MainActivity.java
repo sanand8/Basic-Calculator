@@ -73,8 +73,11 @@ public class MainActivity extends AppCompatActivity {
                 Button b = (Button) view;
                 String op = b.getText().toString();
                 String value = newNumber.getText().toString();
-                if(value.length() != 0){
-                    performOperation(value, op);
+                try{
+                    Double val = Double.valueOf(value);
+                    performOperation(val, op);
+                } catch (NumberFormatException e){
+                    newNumber.setText("");
                 }
                 operator = op;
                 operations.setText(operator);
@@ -86,12 +89,12 @@ public class MainActivity extends AppCompatActivity {
         buttonPlus.setOnClickListener(opListener);
         buttonEqual.setOnClickListener(opListener);
     }
-    private void performOperation(String value, String op){
+    private void performOperation(Double value, String op){
         if(null == operand1){
-            operand1 = Double.valueOf(value);
+            operand1 = value;
         }
         else{
-            operand2 = Double.valueOf(value);
+            operand2 = value;
             if(operator.equals("=")){
                 operator = op;
             }
