@@ -1,6 +1,7 @@
 package com.example.calculator;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -19,6 +20,7 @@ public class MainActivity extends AppCompatActivity {
     private Double operand1 = null;
     private Double operand2 = null;
     private String operator = "=";
+    private static final String TAG = "MainActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -127,6 +129,11 @@ public class MainActivity extends AppCompatActivity {
         super.onRestoreInstanceState(savedInstanceState);
         operator = savedInstanceState.getString(saveop);
         operand1 = savedInstanceState.getDouble(operand);
+        if(operand1 == 0.0){
+            newNumber.setText("");
+            operand1 = null;
+        }
+        Log.d(TAG, "onRestoreInstanceState: "+operand1);
         operations.setText(operator);
     }
 
